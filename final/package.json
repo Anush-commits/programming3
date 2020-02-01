@@ -1,16 +1,17 @@
 {
-  "name": "n",
+  "name": "myscript",
   "version": "1.0.0",
   "description": "finalWork",
   "main": "class.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Anush-commits/programming3.git"
   },
-  "author": "",
+  "author": "Angin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Anush-commits/programming3/issues"
@@ -19,5 +20,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^2.3.0"
-  }
+  },
+  "devDependencies": {}
 }
