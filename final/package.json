@@ -1,0 +1,23 @@
+{
+  "name": "n",
+  "version": "1.0.0",
+  "description": "finalWork",
+  "main": "class.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anush-commits/programming3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anush-commits/programming3/issues"
+  },
+  "homepage": "https://github.com/Anush-commits/programming3#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
