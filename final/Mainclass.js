@@ -4,6 +4,7 @@ module.exports = class Mainclass {
 		this.y = y;
 		this.index = index;
 		this.multiply = 0;
+		this.directions =[]
 		
 	}
 

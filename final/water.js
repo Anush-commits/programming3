@@ -22,7 +22,7 @@ module.exports = class Water extends Mainclass {
     }
 
     mul() {
-        var newcell = random(this.chooseCell(0));
+        var newcell = Math.floor(Math.random * this.chooseCell(0).length);
         if (this.energy >= 15 && newcell) {
 
             var newwat = new Water(newcell[0], newcell[1], this.index);
@@ -38,7 +38,7 @@ module.exports = class Water extends Mainclass {
 
     move() {
 
-        var newCell1 = random(this.chooseCell(0));
+        var newCell1 = Math.floor(Math.random * this.chooseCell(0).length);
         if (newCell1) {
 
             var newx = newCell1[0];
@@ -58,7 +58,7 @@ module.exports = class Water extends Mainclass {
 
     eat() {
 
-        var newcell = random(this.chooseCell(3));
+        var newcell = Math.floor(Math.random * this.chooseCell(3).length);
         if (newcell) {
 
             var newx = newcell[0];

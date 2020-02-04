@@ -9,6 +9,7 @@ app.use(express.static("."));
 app.get('/', function (req, res) {
     res.redirect('index.html');
 });
+
 server.listen(3000);
 
 matrix = [];
@@ -25,19 +26,19 @@ console.log(matrix);
 io.sockets.emit("send matrix", matrix);
 
 
-var grassArr = [];
-var grasseaterArr = [];
-var monsterArr = [];
-var waterArr = [];
-var personArr = [];
-var factoryArr = [];
+ grassArr = [];
+ grasseaterArr = [];
+ monsterArr = [];
+ waterArr = [];
+ personArr = [];
+ factoryArr = [];
 
-grass = require('./Grass');
-grasseater = require('./Grasseater');
-person = require('./Person');
-factory = require('./Factory');
-water = require('./Water');
-monster = require('./Monster');
+Grass = require('./grass');
+Grasseater = require('./grasseater');
+Person = require('./person');
+Factory = require('./factory');
+Water = require('./water');
+Monster = require('./monster');
 
 function createObject(matrix) {
     for (var y = 0; y < matrix.length; ++y) {
@@ -60,7 +61,7 @@ function createObject(matrix) {
                 waterArr.push(wat);
             }
             else if (matrix[y][x] == 5) {
-                var per = new Person(x, y, 5);
+                var per = new Person (x, y, 5);
                 personArr.push(per);
 
             }
@@ -71,7 +72,7 @@ function createObject(matrix) {
 
         }
     }
-    socket.on("send matrix", matrix);
+    io.sockets.emit("send matrix", matrix);
 }
 
 function game() {
@@ -115,7 +116,7 @@ function game() {
         factoryArr[i].die();
 
     }
-
+    io.sockets.emit("send matrix", matrix);
 
 
 }

@@ -23,7 +23,7 @@ module.exports = class Person extends Mainclass {
     }
     mul() {
 
-        var newCell = random(this.chooseCell(0));
+        var newCell = Math.floor(Math.random * this.chooseCell(0).length);
         console.log(newCell, this.energy);
         if (this.energy >= 15 && newCell) {
             var newperson = new Person(newCell[0], newCell[1], this.index);
@@ -37,7 +37,7 @@ module.exports = class Person extends Mainclass {
 
     move() {
 
-        var newcell = random(this.chooseCell(0));
+        var newcell = Math.floor(Math.random * this.chooseCell(0).length);
         if (newcell) {
             var newX = newcell[0];
             var newY = newcell[1];
@@ -54,7 +54,7 @@ module.exports = class Person extends Mainclass {
     }
     // PERSON IS MAKE A FACTORY
     makefactory() {
-        var factCell = random(this.chooseCell(0));
+        var factCell = Math.floor(Math.random * this.chooseCell(0).length);
         if (factCell) {
             var newF = new Factory(factCell[0], factCell[1], this.index);
             factoryArr.push(newF);

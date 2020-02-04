@@ -29,7 +29,7 @@ module.exports = class Monster extends Mainclass {
     }
     mul() {
 
-        var newcell = random(this.chooseCell(0));
+        var newcell = Math.floor(Math.random * this.chooseCell(0).length);
         if (this.energy >= 8 && newcell) {
             var newmonster = new Monster(newcell[0], newcell[1], this.index);
             monsterArr.push(newmonster);
@@ -40,83 +40,101 @@ module.exports = class Monster extends Mainclass {
     }
 
     move() {
-
-        var newCell1 = random(this.chooseCell(0));
-        if (newCell1) {
-            var newx = newCell1[0];
-            var newy = newCell1[1];
+        var emptyCells = super.chooseCell(0);
+        var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
+    
+        if (newCell) {
+            var newX = newCell[0];
+            var newY = newCell[1];
+    
+            matrix[newY][newX] = matrix[this.y][this.x];
             matrix[this.y][this.x] = 0;
-            matrix[newy][newx] = this.index;
-
-            this.x = newx;
-            this.y = newy;
-            this.energy--;
-
-
+    
+            this.x = newX;
+            this.y = newY
         }
-
+    
+        this.energy--;
+        if (this.energy <= 0) {
+            this.die();
+        }
+    
+    
     }
     eat() {
+      
+        var grassCells = super.chooseCell(1);
+        var newcell = grassCells[Math.floor(Math.random() * grassCells.length)]
+        var grasseateCells = super.chooseCell(2);
+        var newCell2 = grasseateCells[Math.floor(Math.random() * grasseateCells.length)]
 
-        var newcell = random(this.chooseCell(2));
-        var newcell2 = random(this.chooseCell(1));
+        if (newCell2) {
 
-        if (newcell) {
-
-            var newx = newcell[0];
-            var newy = newcell[1];
+            var newX = newCell2[0];
+            var newY = newCell2[1];
+            matrix[newY][newX] = matrix[this.y][this.x];
             matrix[this.y][this.x] = 0;
-            matrix[newy][newx] = this.index;
+           
 
 
             for (var i in grasseaterArr) {
-                if (newx == grasseaterArr[i].x && newy == grasseaterArr[i].y) {
+                if (newX == grasseaterArr[i].x && newY == grasseaterArr[i].y) {
                     grasseaterArr.splice(i, 1);
                     break;
                 }
             }
 
 
-            this.x = newx;
-            this.y = newy;
+            this.x = newX;
+            this.y = newY;
             this.energy += 3;
 
         }
-        else if (newcell2) {
-            var newx = newcell2[0];
-            var newy = newcell2[1];
+        else if (newcell) {
+            var newX = newcell[0];
+            var newY = newcell[1];
+            matrix[newY][newX] = matrix[this.y][this.x];
             matrix[this.y][this.x] = 0;
-            matrix[newy][newx] = this.index;
 
 
             for (var i in grassArr) {
-                if (newx == grassArr[i].x && newy == grassArr[i].y) {
+                if (newX == grassArr[i].x && newY == grassArr[i].y) {
                     grassArr.splice(i, 1);
                     break;
                 }
             }
 
 
-            this.x = newx;
-            this.y = newy;
+            this.x = newX;
+            this.y = newY;
             this.energy += 3;
 
         }
 
     }
 
-    die() {
-        if (this.energy <= 0) {
-            matrix[this.y][this.x] = 0;
-            for (var i in monsterArr) {
-                if (this.x == monsterArr[i].x && this.y == monsterArr[i].y) {
-                    monsterArr.splice(i, 1);
-                    break;
-                }
-            }
+   
+mul() {
+    var emptyCells = super.chooseCell(0);
+    var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
-        }
-
+    if (newCell) {
+        var newX = newCell[0];
+        var newY = newCell[1];
+        matrix[newY][newX] = 2
+        grasseaterArr.push(new Grasseater(newX, newY, 2))
+        this.energy = 6;
     }
+}
+
+die() {
+    matrix[this.y][this.x] = 0;
+    for (var i in grasseaterArr) {
+        if (grasseaterArr[i].x == this.x && grasseaterArr[i].y == this.y) {
+            grasseaterArr.splice(i, 1)
+        }
+    }
+
+}
 
 }
