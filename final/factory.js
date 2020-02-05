@@ -5,27 +5,13 @@ module.exports = class Factory extends Mainclass{
        super(x, y, index);
         this.energy = 9;
     }
-    getNewCoordinates() {
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
-    }
-    chooseCell(character) {
-        this.getNewCoordinates();
-      return  super.chooseCell(character);
-    }
+
     mul() {
 
-        var newCell = Math.floor(Math.random * this.chooseCell(0).length);
-        console.log(newCell, this.multiply);
-        if (this.energy >= 15 && newCell) {
+        var emptyCells = super.chooseCell(0);
+		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
+
+        if (newCell) {
             var newperson = new Person(newCell[0], newCell[1], this.index);
             personArr.push(newperson);
             matrix[newCell[1]][newCell[0]] = this.index;

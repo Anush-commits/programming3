@@ -1,12 +1,15 @@
 var socket = io();
-side = 10;
+side = 10; 
 function setup() {
    
-    createCanvas(500, 500);
+ var canvas = createCanvas(500, 500);
+ return canvas;
 }
 
+exports.setup = setup;
+
 function nkarel(matrix) {
-    console.log(matrix);
+    
     
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[0].length; x++) {
@@ -54,3 +57,12 @@ function nkarel(matrix) {
 
 
     socket.on('send matrix', nkarel)
+function kill() {
+    socket.emit("kill")
+}
+function aply () {
+    socket.emit("aply grass")
+}
+function sayHi() {
+    socket.emit("say hi")
+}

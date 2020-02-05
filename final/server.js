@@ -12,26 +12,17 @@ app.get('/', function (req, res) {
 
 server.listen(3000);
 
+
+grassArr = [];
+grasseaterArr = [];
+monsterArr = [];
+waterArr = [];
+personArr = [];
+factoryArr = [];
 matrix = [];
 var a = 50;
 
-for (let y = 0; y < a; y++) {
-    matrix[y] = [];
-    for (let x = 0; x < a; x++) {
-        matrix[y][x] = Math.floor(Math.random() * 6);
-    }
-}
-console.log(matrix);
 
-io.sockets.emit("send matrix", matrix);
-
-
- grassArr = [];
- grasseaterArr = [];
- monsterArr = [];
- waterArr = [];
- personArr = [];
- factoryArr = [];
 
 Grass = require('./grass');
 Grasseater = require('./grasseater');
@@ -40,32 +31,53 @@ Factory = require('./factory');
 Water = require('./water');
 Monster = require('./monster');
 
+
+function rand(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+for (let i = 0; i < a; i++) {
+    matrix[i] = [];
+    for (let j = 0; j < a; j++) {
+        matrix[i][j] = Math.floor(rand(0, 6))
+
+    }
+}
+io.sockets.emit("send matrix", matrix)
+
+
+
+
+
 function createObject(matrix) {
-    for (var y = 0; y < matrix.length; ++y) {
-        for (var x = 0; x < matrix[y].length; ++x) {
+    for (var y = 0; y < matrix.length; y++) {
+        for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
-                var gr = new Grass(x, y, 1);
-                grassArr.push(gr);
+                matrix[y][x] = 1 
+                grassArr.push(new Grass(x, y, 1))
             }
             else if (matrix[y][x] == 2) {
-                var eater = new Grasseater(x, y, 2);
-                grasseaterArr.push(eater);
+                matrix[y][x] = 2
+                grasseaterArr.push(new Grasseater(x, y, 2))
             }
             else if (matrix[y][x] == 3) {
-                var mon = new Monster(x, y, 3);
-                monsterArr.push(mon);
+                matrix[y][x] = 3
+                monsterArr.push(new Monster(x, y, 3));
             }
 
             else if (matrix[y][x] == 4) {
+                matrix[y][x] = 4
                 var wat = new Water(x, y, 4);
                 waterArr.push(wat);
             }
             else if (matrix[y][x] == 5) {
-                var per = new Person (x, y, 5);
+                matrix[y][x] = 5
+                var per = new Person(x, y, 5);
                 personArr.push(per);
 
             }
             else if (matrix[y][x] == 6) {
+                matrix[y][x] = 6
                 var fact = new Factory(x, y, 6);
                 factoryArr.push(fact);
             }
@@ -76,7 +88,7 @@ function createObject(matrix) {
 }
 
 function game() {
-    
+
     for (var i in grassArr) {
         grassArr[i].mul();
     }
@@ -123,6 +135,57 @@ function game() {
 
 setInterval(game, 1000);
 
-io.on('connection', function () {
-    createObject(matrix);
-})
+
+function kill() {
+    grassArr = [];
+    grassEaterArr = []
+    for (var y = 0; y < matrix.length; y++) {
+        for (var x = 0; x < matrix[y].length; x++) {
+            matrix[y][x] = 0;
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+
+function aply() {
+    for (let i = 0; i < 7; i++) {
+        var x = Math.floor(Math.random() * matrix[0].length)
+        var y = Math.floor(Math.random() * matrix.length)
+        if (matrix[y][x] == 0) {
+            matrix[y][x] = 6;
+            let newFactory = new Factory(x, y, 6);
+            factoryArr.push(newFactory);
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+const setup = require('./script');
+console.log(setup.setup());
+
+function sayHi() {
+    for (var y = 0; y < matrix.length; y++) {
+        for (var x = 0; x < matrix[0].length; x++) {
+            if (matrix[y][x] == 5) {
+                
+            }
+
+        }
+    }
+}
+
+io.on('connection', function (socket) {
+    createObject();
+    socket.on("kill", kill);
+    socket.on("aply grass", aply);
+    socket.on("say hi", sayHi);
+});
+
+var statistics = {};
+
+setInterval(function() {
+    statistics.grass = grassArr.length;
+    statistics.Grasseater = grasseaterArr.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistics), function () {
+        console.log("send");
+    });
+}, 1000);

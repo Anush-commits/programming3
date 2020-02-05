@@ -6,23 +6,8 @@ module.exports = class Grasseater extends Mainclass{
 
 
     }
-    getNewCoordinates() {
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
-    }
-    chooseCell(character) {
-        this.getNewCoordinates();
-      return  super.chooseCell(character);
-    }
- 
+  
+    
 
     mul() {
 		var emptyCells = super.chooseCell(0);
@@ -33,7 +18,7 @@ module.exports = class Grasseater extends Mainclass{
 			var newY = newCell[1];
 			matrix[newY][newX] = 2
 			grasseaterArr.push(new Grasseater(newX, newY, 2))
-			this.energy = 5;
+			this.energy = 6;
 		}
 	}
 
@@ -59,8 +44,7 @@ module.exports = class Grasseater extends Mainclass{
 
 
 	}
-
-    eat() {
+	eat() {
 		var grassCells = super.chooseCell(1);
 		var newCell = grassCells[Math.floor(Math.random() * grassCells.length)]
 
@@ -91,21 +75,22 @@ module.exports = class Grasseater extends Mainclass{
 			this.move();
 		}
 	}
+  
 
     die() {
-        if (this.energy <= 0) {
+        
             matrix[this.y][this.x] = 0;
             for (var i in grasseaterArr) {
                 if (this.x == grasseaterArr[i].x && this.y == grasseaterArr[i].y) {
                     grasseaterArr.splice(i, 1);
-                    break;
+                    
                 }
             }
 
         }
 
 
-    }
+    
 
 
 }
