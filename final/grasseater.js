@@ -16,7 +16,7 @@ module.exports = class Grasseater extends Mainclass{
 		if (newCell) {
 			var newX = newCell[0];
 			var newY = newCell[1];
-			matrix[newY][newX] = 2
+			matrix[newY][newX] = 2;
 			grasseaterArr.push(new Grasseater(newX, newY, 2))
 			this.energy = 6;
 		}

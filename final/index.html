@@ -6,9 +6,9 @@
 	<meta charset="utf8">
 	<script src="socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
-    <script src="script.js"></script>
+    <script src="client.js"></script>
 	<style>
-	#events > button {
+	#events > button, #weathers > button {
 		padding: 1em;
 		margin: 0em 5em 0em 1em;
 		background-color: #40739e;
@@ -29,7 +29,8 @@ border-radius: 1em;
 
 		<button id="kill" onclick="kill()">Kill</button>
 		<button id="born" onclick="aply()">Aply</button>
-		<button id="sayHi" onclick="sayHi()">Say Hi!</button>
+		<button onclick="addgrass()">Add grass</button>
+		<button id="rain" onclick="rain()">Rain</button>
 	</div>
 
 </body>

@@ -48,7 +48,7 @@ module.exports = class Factory extends Mainclass{
         var newcell4 = Math.floor(Math.random * this.chooseCell(4).length);
         var newcell5 = Math.floor(Math.random * this.chooseCell(5).length);
 
-        if (newcell) {
+        if (newcell1) {
 
             var newx = newcell[0];
             var newy = newcell[1];

@@ -1,5 +1,4 @@
 var Mainclass = require('./Mainclass');
-var Person = require('./factory');
 module.exports = class Person extends Mainclass {
     constructor(x, y, index) {
         super(x,y,index);
@@ -43,17 +42,17 @@ module.exports = class Person extends Mainclass {
                 this.die();
             }
     }
-    // PERSON IS MAKE A FACTORY
-    makefactory() {
-        var factCell = Math.floor(Math.random * this.chooseCell(0).length);
-        if (factCell) {
-            var newF = new Factory(factCell[0], factCell[1], this.index);
-            factoryArr.push(newF);
-            matrix[factCell[1]][factCell[0]] = this.index;
-            this.energy += 7;
-        }
+    // // PERSON IS MAKE A FACTORY
+    // makefactory() {
+    //     var factCell = Math.floor(Math.random * this.chooseCell(0).length);
+    //     if (factCell) {
+    //         var newF = new Factory(factCell[0], factCell[1], this.index);
+    //         factoryArr.push(newF);
+    //         matrix[factCell[1]][factCell[0]] = this.index;
+    //         this.energy += 7;
+    //     }
 
-    }
+    // }
     die() {
        
             matrix[this.y][this.x] = 0;
