@@ -62,7 +62,7 @@ module.exports = class Monster extends Mainclass {
             for (var i in grasseaterArr) {
                 if (newX == grasseaterArr[i].x && newY == grasseaterArr[i].y) {
                     grasseaterArr.splice(i, 1);
-                    break;
+                    
                 }
             }
 

@@ -19,6 +19,7 @@ monsterArr = [];
 waterArr = [];
 personArr = [];
 factoryArr = [];
+fireArr = [];
 matrix = [];
 var a = 50;
 
@@ -30,7 +31,7 @@ Person = require('./person');
 Factory = require('./factory');
 Water = require('./water');
 Monster = require('./monster');
-
+Fire = require('./fire');
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
@@ -51,7 +52,7 @@ function createObject() {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
-                matrix[y][x] = 1 
+                matrix[y][x] = 1
                 grassArr.push(new Grass(x, y, 1))
             }
             else if (matrix[y][x] == 2) {
@@ -130,7 +131,7 @@ function game() {
 
 }
 
-setInterval(game, 1000);
+setInterval(game, 2000);
 
 
 function kill() {
@@ -153,8 +154,10 @@ function aply() {
             let newFactory = new Factory(x, y, 6);
             factoryArr.push(newFactory);
         }
+      
+        
     }
-  
+
     io.sockets.emit("send matrix", matrix);
 }
 function addgrass() {
@@ -166,19 +169,36 @@ function addgrass() {
             let newgrass = new Grass(x, y, 1);
             grassArr.push(newgrass);
         }
+        if (matrix[y][x] == 2) {
+            matrix[y][x] = 1;
+            let newgrass = new Grass(x, y, 1);
+            grassArr.push(newgrass);
+        }
+
     }
     io.sockets.emit("send matrix", matrix);
 }
 
-function rain(weath) {
+function fire() {
+   
     for (let i = 0; i < 7; i++) {
-        let x = Math.floor(Math.random() * matrix[0].length)
+        var x = Math.floor(Math.random() * matrix[0].length)
         var y = Math.floor(Math.random() * matrix.length)
-        if (matrix[y][x] == 4) {
-            weath = "autumn"
+        if (matrix[y][x] == 0) {
+            matrix[y][x] = 7
+            let myfire = new Fire(x, y, 7);
+            fireArr.push(myfire);
+           
         }
     }
-    io.sockets.emit("weather", weath);
+    for (var a in fireArr) {
+        fireArr[a].mul();
+        fireArr[a].move();
+        fireArr[a].eat();
+
+
+    }
+    io.sockets.emit("send matrix", matrix);
 }
 
 function weather() {
@@ -193,11 +213,11 @@ function weather() {
     }
     else if (weath == "autumn") {
         weath = "winter"
-    
+
     }
     io.sockets.emit('weather', weath)
 }
-setInterval(weather, 2000);
+setInterval(weather, 5000);
 
 
 
@@ -205,15 +225,19 @@ io.on('connection', function (socket) {
     createObject();
     socket.on("kill", kill);
     socket.on("aply factory", aply);
-    socket.on("rain", rain);
     socket.on("add grass", addgrass)
+    socket.on("make fire", fire)
 });
 
 var statistics = {};
 
-setInterval(function() {
+setInterval(function () {
     statistics.grass = grassArr.length;
     statistics.Grasseater = grasseaterArr.length;
+    statistics.person = personArr.length;
+    statistics.monster = monsterArr.length;
+    statistics.factory = factoryArr.length;
+    statistics.water = waterArr.length;
     fs.writeFile("statistics.json", JSON.stringify(statistics), function () {
         console.log("send");
     });

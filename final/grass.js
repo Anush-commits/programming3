@@ -11,7 +11,7 @@ module.exports = class Grass extends Mainclass{
                 let y = newCell[1]
                 matrix[y][x] = 1
                 grassArr.push(new Grass(x, y, 1))
-                this.multiply = 0;
+                this.multiply = 7;
             }
         }
     }
